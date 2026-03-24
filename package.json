@@ -1,0 +1,22 @@
+{
+  "name": "kyc-web3-game-platform",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:onboarding": "turbo run dev --filter=onboarding",
+    "dev:admin": "turbo run dev --filter=admin",
+    "dev:api": "turbo run dev --filter=api",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "seed:admin": "npm run seed:admin --workspace=api"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0",
+    "typescript": "^5.7.0"
+  }
+}

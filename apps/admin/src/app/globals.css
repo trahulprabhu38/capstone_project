@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark text-offwhite font-body antialiased;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-offwhite font-semibold py-2.5 px-5 rounded-input
+           hover:bg-primary-hover transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-primary/50;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 text-offwhite font-semibold py-2.5 px-5 rounded-input
+           hover:bg-red-700 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-red-500/50;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border border-dark-border text-offwhite/70 font-medium py-2.5 px-5 rounded-input
+           hover:bg-dark-card transition-colors duration-200;
+  }
+
+  .input-field {
+    @apply w-full bg-dark-card border border-dark-border rounded-input py-2.5 px-4
+           text-offwhite placeholder:text-offwhite/40
+           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary
+           transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-dark-card border border-dark-border rounded-card p-6;
+  }
+}
