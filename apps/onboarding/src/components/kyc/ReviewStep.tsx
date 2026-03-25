@@ -15,6 +15,8 @@ import {
   Hash,
   Clock,
   ScanLine,
+  AlertTriangle,
+  X,
 } from "lucide-react";
 
 interface ReviewStepProps {
@@ -38,6 +40,8 @@ interface ReviewStepProps {
   onSubmit: () => Promise<void>;
   onBack: () => void;
   submitting: boolean;
+  error?: string | null;
+  onDismissError?: () => void;
 }
 
 export default function ReviewStep({
@@ -48,6 +52,8 @@ export default function ReviewStep({
   onSubmit,
   onBack,
   submitting,
+  error,
+  onDismissError,
 }: ReviewStepProps) {
   const [agreed, setAgreed] = useState(false);
 
@@ -143,6 +149,25 @@ export default function ReviewStep({
           </span>
         </label>
       </div>
+
+      {error && (
+        <div className="flex items-start gap-3 rounded-lg border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 animate-in fade-in slide-in-from-top-2">
+          <AlertTriangle className="h-5 w-5 text-yellow-400 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="text-sm font-semibold text-yellow-300">Submission Failed</p>
+            <p className="text-sm text-yellow-200/80 mt-0.5">{error}</p>
+          </div>
+          {onDismissError && (
+            <button
+              type="button"
+              onClick={onDismissError}
+              className="text-yellow-400/60 hover:text-yellow-300 transition-colors"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+      )}
 
       <div className="flex justify-between pt-2">
         <button type="button" onClick={onBack} className="btn-secondary">

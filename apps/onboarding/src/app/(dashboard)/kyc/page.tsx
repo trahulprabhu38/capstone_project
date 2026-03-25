@@ -37,6 +37,7 @@ export default function KycPage() {
 
   const [documents, setDocuments] = useState<UploadedDoc[]>([]);
   const [walletAddress, setWalletAddress] = useState("");
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const [documentDetails, setDocumentDetails] = useState({
     nameOnDocument: "",
@@ -77,6 +78,7 @@ export default function KycPage() {
 
   const handleSubmit = async () => {
     setSubmitting(true);
+    setSubmitError(null);
     try {
       await submitKyc({
         personalInfo,
@@ -91,7 +93,7 @@ export default function KycPage() {
       });
       router.push("/status");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Submission failed");
+      setSubmitError(err.response?.data?.message || "Submission failed. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -151,6 +153,8 @@ export default function KycPage() {
           onSubmit={handleSubmit}
           onBack={() => setStep(4)}
           submitting={submitting}
+          error={submitError}
+          onDismissError={() => setSubmitError(null)}
         />
       )}
     </div>
