@@ -119,7 +119,7 @@ export async function getAllApplications(
 
   const [applications, total] = await Promise.all([
     KycApplicationModel.find(query)
-      .populate("userId", "email fullName")
+      .populate("userId", "email fullName isBlocked blockReason blockedAt")
       .populate("reviewedBy", "email fullName")
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
@@ -134,7 +134,7 @@ export async function getApplicationById(
   id: string
 ): Promise<IKycApplication | null> {
   return KycApplicationModel.findById(id)
-    .populate("userId", "email fullName")
+    .populate("userId", "email fullName isBlocked blockReason blockedAt")
     .populate("reviewedBy", "email fullName");
 }
 

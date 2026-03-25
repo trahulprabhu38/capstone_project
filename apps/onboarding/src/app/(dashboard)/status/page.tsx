@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   XCircle,
   Send,
-  Search,
   Gamepad2,
   Loader2,
   ArrowRight,
@@ -18,50 +17,11 @@ import {
   Wallet,
   Star,
   Sparkles,
+  FileText,
+  ScanLine,
+  UserCheck,
+  Hourglass,
 } from "lucide-react";
-
-const statusConfig: Record<
-  string,
-  { icon: any; label: string; color: string; bgColor: string; border: string }
-> = {
-  NOT_STARTED: {
-    icon: Clock,
-    label: "Not Started",
-    color: "text-offwhite/50",
-    bgColor: "bg-offwhite/5",
-    border: "border-dark-border",
-  },
-  PENDING: {
-    icon: Send,
-    label: "Submitted",
-    color: "text-yellow-400",
-    bgColor: "bg-yellow-400/10",
-    border: "border-yellow-400/20",
-  },
-  UNDER_REVIEW: {
-    icon: Search,
-    label: "Under Review",
-    color: "text-blue-400",
-    bgColor: "bg-blue-400/10",
-    border: "border-blue-400/20",
-  },
-  APPROVED: {
-    icon: CheckCircle2,
-    label: "Approved",
-    color: "text-primary",
-    bgColor: "bg-primary/10",
-    border: "border-primary/30",
-  },
-  REJECTED: {
-    icon: XCircle,
-    label: "Rejected",
-    color: "text-red-400",
-    bgColor: "bg-red-400/10",
-    border: "border-red-500/20",
-  },
-};
-
-const statusOrder = ["PENDING", "UNDER_REVIEW", "APPROVED"];
 
 export default function StatusPage() {
   const router = useRouter();
@@ -77,8 +37,6 @@ export default function StatusPage() {
   }
 
   const status = application?.status || "NOT_STARTED";
-  const config = statusConfig[status] || statusConfig.NOT_STARTED;
-  const Icon = config.icon;
 
   const handlePlayGame = async () => {
     setGameLoading(true);
@@ -115,11 +73,9 @@ export default function StatusPage() {
   if (status === "APPROVED") {
     return (
       <div className="max-w-3xl mx-auto px-4 py-10 space-y-8">
-        {/* Approved Hero */}
         <div className="relative overflow-hidden rounded-card border border-primary/30 bg-gradient-to-br from-primary/10 via-dark-card to-dark-card">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
           <div className="relative px-8 py-12 text-center">
             <div className="flex justify-center mb-6">
               <div className="relative">
@@ -131,32 +87,25 @@ export default function StatusPage() {
                 </div>
               </div>
             </div>
-
             <h1 className="font-title text-3xl sm:text-4xl font-extrabold mb-3">
-              Identity{" "}
-              <span className="text-primary">Verified</span>
+              Identity <span className="text-primary">Verified</span>
             </h1>
             <p className="text-offwhite/50 max-w-md mx-auto leading-relaxed">
-              Congratulations! Your TrustLayer verification is complete. You now have
-              full access to the Web3 gaming platform.
+              Congratulations! Your TrustLayer verification is complete. You now
+              have full access to the Web3 gaming platform.
             </p>
           </div>
         </div>
 
-        {/* Status Summary Cards */}
         <div className="grid grid-cols-3 gap-4">
           <div className="card text-center py-5">
             <ShieldCheck className="h-6 w-6 text-primary mx-auto mb-2" />
-            <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">
-              Identity
-            </div>
+            <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Identity</div>
             <div className="text-sm text-offwhite/60">Verified</div>
           </div>
           <div className="card text-center py-5">
             <Wallet className="h-6 w-6 text-primary mx-auto mb-2" />
-            <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">
-              Wallet
-            </div>
+            <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Wallet</div>
             <div className="text-sm text-offwhite/60 truncate px-2">
               {application?.walletAddress
                 ? `${application.walletAddress.slice(0, 6)}...${application.walletAddress.slice(-4)}`
@@ -165,24 +114,19 @@ export default function StatusPage() {
           </div>
           <div className="card text-center py-5">
             <Star className="h-6 w-6 text-primary mx-auto mb-2" />
-            <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">
-              Status
-            </div>
+            <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Status</div>
             <div className="text-sm text-primary font-semibold">Approved</div>
           </div>
         </div>
 
-        {/* Play Game CTA */}
         <div className="card text-center py-10 border-primary/20 bg-gradient-to-b from-primary/5 to-transparent">
           <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
             <Gamepad2 className="h-8 w-8 text-primary" />
           </div>
-          <h2 className="font-heading text-xl font-bold mb-2">
-            Ready to Play
-          </h2>
+          <h2 className="font-heading text-xl font-bold mb-2">Ready to Play</h2>
           <p className="text-offwhite/50 text-sm mb-6 max-w-sm mx-auto">
-            Your verified account is all set. Launch the game and start
-            your Web3 gaming journey.
+            Your verified account is all set. Launch the game and start your Web3
+            gaming journey.
           </p>
           <button
             onClick={handlePlayGame}
@@ -200,7 +144,6 @@ export default function StatusPage() {
           </button>
         </div>
 
-        {/* Benefits */}
         <div className="card">
           <div className="flex items-center gap-2 mb-4">
             <Sparkles className="h-4 w-4 text-primary" />
@@ -215,10 +158,7 @@ export default function StatusPage() {
               { icon: ShieldCheck, text: "Play in a verified, cheat-free environment" },
               { icon: Gamepad2, text: "Access the full Web3 game catalog" },
             ].map((item, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 p-3 rounded-input bg-dark/50"
-              >
+              <div key={i} className="flex items-center gap-3 p-3 rounded-input bg-dark/50">
                 <item.icon className="h-4 w-4 text-primary flex-shrink-0" />
                 <span className="text-sm text-offwhite/60">{item.text}</span>
               </div>
@@ -226,7 +166,6 @@ export default function StatusPage() {
           </div>
         </div>
 
-        {/* Refresh */}
         <div className="text-center">
           <button
             onClick={refetch}
@@ -240,145 +179,266 @@ export default function StatusPage() {
     );
   }
 
+  // ── PENDING / UNDER_REVIEW / REJECTED ──
+  const isPending = status === "PENDING";
+  const isUnderReview = status === "UNDER_REVIEW";
+  const isRejected = status === "REJECTED";
+  const isWaiting = isPending || isUnderReview;
+
+  const timelineSteps = [
+    {
+      icon: Send,
+      label: "Application Submitted",
+      description: "Your documents and details have been received.",
+      done: true,
+    },
+    {
+      icon: ScanLine,
+      label: "Document Verification",
+      description: "Our team is verifying your uploaded ID documents.",
+      done: isUnderReview,
+      active: isPending,
+    },
+    {
+      icon: UserCheck,
+      label: "Identity Confirmation",
+      description: "Final identity review and approval decision.",
+      done: false,
+      active: isUnderReview,
+    },
+    {
+      icon: CheckCircle2,
+      label: "Verification Complete",
+      description: "You'll get full access to the platform.",
+      done: false,
+    },
+  ];
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-10 space-y-8">
-      <div className="text-center">
-        <h1 className="font-heading text-2xl font-bold mb-2">
-          Application Status
-        </h1>
-        <p className="text-offwhite/50 text-sm">
-          Track the progress of your TrustLayer verification
-        </p>
-      </div>
+      {/* Hero with animated waiting indicator */}
+      {isWaiting && (
+        <div className="fade-slide-up relative overflow-hidden rounded-card border border-dark-border bg-gradient-to-br from-dark-card via-dark-card to-dark">
+          <div className={`absolute top-0 right-0 w-72 h-72 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 ${isPending ? "bg-yellow-400/5" : "bg-blue-400/5"}`} />
+          <div className={`absolute bottom-0 left-0 w-56 h-56 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 ${isPending ? "bg-yellow-400/5" : "bg-blue-400/5"}`} />
 
-      {/* Status Tracker */}
-      <div className="card">
-        <div className="flex items-center justify-between mb-8">
-          {statusOrder.map((s, i) => {
-            const sConf = statusConfig[s];
-            const SIcon = sConf.icon;
-            const currentIdx = statusOrder.indexOf(status);
-            const isCompleted =
-              status === "REJECTED" ? false : i <= currentIdx;
-            const isActive = s === status;
+          <div className="relative px-8 py-12 text-center">
+            {/* Animated orbiting indicator */}
+            <div className="flex justify-center mb-8">
+              <div className="relative w-28 h-28">
+                {/* Pulse rings */}
+                <div className={`pulse-ring ${isPending ? "text-yellow-400" : "text-blue-400"}`} />
+                <div className={`pulse-ring pulse-ring-delay ${isPending ? "text-yellow-400" : "text-blue-400"}`} />
 
-            return (
-              <div key={s} className="flex items-center flex-1">
-                <div className="flex flex-col items-center flex-1">
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                      isCompleted
-                        ? "bg-primary/20 border-2 border-primary"
-                        : "bg-dark border border-dark-border"
-                    }`}
-                  >
-                    <SIcon
-                      className={`h-6 w-6 ${
-                        isCompleted ? "text-primary" : "text-offwhite/20"
-                      }`}
-                    />
+                {/* Orbiting dots */}
+                <div className="orbit-dot" />
+                <div className="orbit-dot orbit-dot-2" />
+
+                {/* Center icon */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center float-anim ${
+                    isPending ? "bg-yellow-400/15 border-2 border-yellow-400/30" : "bg-blue-400/15 border-2 border-blue-400/30"
+                  }`}>
+                    <Hourglass className={`h-7 w-7 ${isPending ? "text-yellow-400" : "text-blue-400"}`} />
                   </div>
-                  <span
-                    className={`text-xs mt-2 font-medium ${
-                      isActive ? sConf.color : "text-offwhite/30"
-                    }`}
-                  >
-                    {sConf.label}
-                  </span>
                 </div>
-                {i < statusOrder.length - 1 && (
-                  <div
-                    className={`h-0.5 w-full mt-[-1.5rem] ${
-                      i < currentIdx ? "bg-primary" : "bg-dark-border"
-                    }`}
-                  />
-                )}
               </div>
-            );
-          })}
-        </div>
+            </div>
 
-        <div
-          className={`flex items-center gap-4 p-4 rounded-input ${config.bgColor} border ${config.border}`}
-        >
-          <Icon className={`h-8 w-8 flex-shrink-0 ${config.color}`} />
-          <div>
-            <p className={`font-semibold ${config.color}`}>{config.label}</p>
-            <p className="text-sm text-offwhite/50">
-              {status === "PENDING" &&
-                "Your application has been submitted and is awaiting review."}
-              {status === "UNDER_REVIEW" &&
-                "An admin is currently reviewing your application."}
-              {status === "REJECTED" &&
-                "Your application was not approved. See remarks below."}
+            <h1 className="font-title text-2xl sm:text-3xl font-extrabold mb-3">
+              {isPending ? (
+                <>Application <span className="text-yellow-400">Submitted</span></>
+              ) : (
+                <>Under <span className="text-blue-400">Review</span></>
+              )}
+            </h1>
+            <p className="text-offwhite/50 max-w-md mx-auto leading-relaxed text-sm">
+              {isPending
+                ? "Your KYC application has been successfully submitted. Our team will begin reviewing it shortly."
+                : "An administrator is currently reviewing your documents and verifying your identity."}
             </p>
-          </div>
-        </div>
-      </div>
 
-      {/* Rejected — Remarks + Re-submit */}
-      {status === "REJECTED" && (
-        <div className="card border-red-500/20">
-          <h3 className="font-heading font-semibold text-red-400 mb-3">
-            Rejection Reason
-          </h3>
-          <div className="bg-red-500/5 border border-red-500/20 rounded-input p-4 mb-6">
-            <p className="text-sm text-offwhite/70">
-              {application?.adminRemarks || "No remarks provided."}
-            </p>
+            {/* Shimmer progress bar */}
+            <div className="mt-8 max-w-xs mx-auto">
+              <div className="h-1.5 bg-dark rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full shimmer-bar"
+                  style={{ width: isPending ? "35%" : "65%" }}
+                />
+              </div>
+              <p className="text-[11px] text-offwhite/30 mt-2">
+                {isPending ? "Waiting for review" : "Review in progress"}
+              </p>
+            </div>
           </div>
-          <button
-            onClick={() => router.push("/kyc")}
-            className="btn-primary inline-flex items-center gap-2"
-          >
-            <RefreshCw className="h-5 w-5" />
-            Re-submit Application
-          </button>
         </div>
       )}
 
-      {/* Pending / Under Review info */}
-      {(status === "PENDING" || status === "UNDER_REVIEW") && (
-        <div className="card">
-          <h3 className="font-heading text-sm font-semibold text-offwhite/70 uppercase tracking-wider mb-4">
-            What happens next?
-          </h3>
-          <div className="space-y-3">
-            {[
-              {
-                step: "1",
-                text: "Our admin team reviews your submitted documents and selfie.",
-              },
-              {
-                step: "2",
-                text: "Your identity is verified against the uploaded government ID.",
-              },
-              {
-                step: "3",
-                text: "Once approved, you'll get instant access to the gaming platform.",
-              },
-            ].map((item) => (
-              <div
-                key={item.step}
-                className="flex items-start gap-3 p-3 rounded-input bg-dark/50"
-              >
-                <div className="w-6 h-6 bg-primary/10 rounded-md flex items-center justify-center flex-shrink-0 text-xs font-bold text-primary">
-                  {item.step}
-                </div>
-                <span className="text-sm text-offwhite/50">{item.text}</span>
-              </div>
-            ))}
+      {/* Submitted info cards */}
+      {isWaiting && (
+        <div className="grid grid-cols-3 gap-3 fade-slide-up fade-slide-up-1">
+          <div className="card text-center py-4 px-2">
+            <FileText className={`h-5 w-5 mx-auto mb-1.5 ${isPending ? "text-yellow-400" : "text-blue-400"}`} />
+            <div className="text-xs font-semibold text-offwhite/40 uppercase tracking-wider mb-0.5">Documents</div>
+            <div className="text-sm text-offwhite/70 font-medium">Uploaded</div>
+          </div>
+          <div className="card text-center py-4 px-2">
+            <ScanLine className={`h-5 w-5 mx-auto mb-1.5 ${isPending ? "text-yellow-400" : "text-blue-400"}`} />
+            <div className="text-xs font-semibold text-offwhite/40 uppercase tracking-wider mb-0.5">OCR</div>
+            <div className="text-sm text-offwhite/70 font-medium">Verified</div>
+          </div>
+          <div className="card text-center py-4 px-2">
+            <Hourglass className={`h-5 w-5 mx-auto mb-1.5 ${isPending ? "text-yellow-400" : "text-blue-400"}`} />
+            <div className="text-xs font-semibold text-offwhite/40 uppercase tracking-wider mb-0.5">Status</div>
+            <div className={`text-sm font-semibold ${isPending ? "text-yellow-400" : "text-blue-400"}`}>
+              {isPending ? "Pending" : "In Review"}
+            </div>
           </div>
         </div>
+      )}
+
+      {/* Timeline */}
+      {isWaiting && (
+        <div className="card fade-slide-up fade-slide-up-2">
+          <h3 className="font-heading text-sm font-semibold text-offwhite/60 uppercase tracking-wider mb-6">
+            Verification Progress
+          </h3>
+          <div className="space-y-0">
+            {timelineSteps.map((step, i) => {
+              const StepIcon = step.icon;
+              const isDone = step.done;
+              const isActive = step.active;
+              const isLast = i === timelineSteps.length - 1;
+
+              return (
+                <div key={i} className="flex gap-4">
+                  {/* Timeline connector */}
+                  <div className="flex flex-col items-center">
+                    <div
+                      className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all ${
+                        isDone
+                          ? "bg-primary/20 border-2 border-primary"
+                          : isActive
+                          ? isPending
+                            ? "bg-yellow-400/15 border-2 border-yellow-400/50"
+                            : "bg-blue-400/15 border-2 border-blue-400/50"
+                          : "bg-dark border border-dark-border"
+                      }`}
+                    >
+                      {isDone ? (
+                        <CheckCircle2 className="h-4 w-4 text-primary" />
+                      ) : isActive ? (
+                        <Loader2 className={`h-4 w-4 animate-spin ${isPending ? "text-yellow-400" : "text-blue-400"}`} />
+                      ) : (
+                        <StepIcon className="h-4 w-4 text-offwhite/20" />
+                      )}
+                    </div>
+                    {!isLast && (
+                      <div
+                        className={`w-0.5 h-10 ${isDone ? "bg-primary/40" : "bg-dark-border"}`}
+                      />
+                    )}
+                  </div>
+
+                  {/* Step content */}
+                  <div className={`pb-6 ${isLast ? "pb-0" : ""}`}>
+                    <p
+                      className={`text-sm font-semibold ${
+                        isDone
+                          ? "text-primary"
+                          : isActive
+                          ? isPending ? "text-yellow-400" : "text-blue-400"
+                          : "text-offwhite/30"
+                      }`}
+                    >
+                      {step.label}
+                      {isActive && (
+                        <span className={`ml-2 text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                          isPending
+                            ? "bg-yellow-400/10 text-yellow-400 border border-yellow-400/20"
+                            : "bg-blue-400/10 text-blue-400 border border-blue-400/20"
+                        }`}>
+                          In Progress
+                        </span>
+                      )}
+                    </p>
+                    <p className={`text-xs mt-0.5 ${isDone || isActive ? "text-offwhite/50" : "text-offwhite/20"}`}>
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Estimated time card */}
+      {isWaiting && (
+        <div className={`card fade-slide-up fade-slide-up-3 ${isPending ? "border-yellow-400/20" : "border-blue-400/20"}`}>
+          <div className="flex items-center gap-4">
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
+              isPending ? "bg-yellow-400/10" : "bg-blue-400/10"
+            }`}>
+              <Clock className={`h-6 w-6 ${isPending ? "text-yellow-400" : "text-blue-400"}`} />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-offwhite/80">Estimated Review Time</p>
+              <p className="text-xs text-offwhite/40 mt-0.5">
+                Applications are typically reviewed within <strong className="text-offwhite/60">24–48 hours</strong>.
+                You&apos;ll be notified once a decision is made.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Rejected state */}
+      {isRejected && (
+        <>
+          <div className="fade-slide-up relative overflow-hidden rounded-card border border-red-500/20 bg-gradient-to-br from-red-500/5 via-dark-card to-dark-card">
+            <div className="relative px-8 py-10 text-center">
+              <div className="flex justify-center mb-6">
+                <div className="w-16 h-16 bg-red-500/10 border-2 border-red-500/30 rounded-full flex items-center justify-center">
+                  <XCircle className="h-8 w-8 text-red-400" />
+                </div>
+              </div>
+              <h1 className="font-title text-2xl font-extrabold mb-2">
+                Application <span className="text-red-400">Not Approved</span>
+              </h1>
+              <p className="text-offwhite/50 text-sm max-w-md mx-auto">
+                Your application was reviewed and could not be approved at this time.
+              </p>
+            </div>
+          </div>
+
+          <div className="card border-red-500/20 fade-slide-up fade-slide-up-1">
+            <h3 className="font-heading font-semibold text-red-400 mb-3">
+              Rejection Reason
+            </h3>
+            <div className="bg-red-500/5 border border-red-500/20 rounded-input p-4 mb-6">
+              <p className="text-sm text-offwhite/70">
+                {application?.adminRemarks || "No remarks provided."}
+              </p>
+            </div>
+            <button
+              onClick={() => router.push("/kyc")}
+              className="btn-primary inline-flex items-center gap-2"
+            >
+              <RefreshCw className="h-5 w-5" />
+              Re-submit Application
+            </button>
+          </div>
+        </>
       )}
 
       {/* Refresh */}
-      <div className="text-center">
+      <div className="text-center fade-slide-up fade-slide-up-4">
         <button
           onClick={refetch}
-          className="text-sm text-offwhite/40 hover:text-offwhite/60 transition-colors inline-flex items-center gap-1"
+          className="text-sm text-offwhite/40 hover:text-offwhite/60 transition-colors inline-flex items-center gap-2 py-2 px-4 rounded-input hover:bg-dark-card"
         >
-          <RefreshCw className="h-3 w-3" />
+          <RefreshCw className="h-3.5 w-3.5" />
           Refresh Status
         </button>
       </div>

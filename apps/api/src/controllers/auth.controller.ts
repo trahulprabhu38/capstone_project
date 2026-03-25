@@ -35,7 +35,7 @@ export async function signup(req: Request, res: Response): Promise<void> {
     sendSuccess(
       res,
       {
-        user: { _id: user._id, email: user.email, role: user.role },
+        user: { _id: user._id, email: user.email, role: user.role, isBlocked: false },
         ...tokens,
       },
       "Account created successfully",
@@ -72,7 +72,14 @@ export async function login(req: Request, res: Response): Promise<void> {
     const tokens = generateTokens(user._id.toString());
 
     sendSuccess(res, {
-      user: { _id: user._id, email: user.email, role: user.role, fullName: user.fullName },
+      user: {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+        fullName: user.fullName,
+        isBlocked: user.isBlocked,
+        blockReason: user.blockReason,
+      },
       ...tokens,
     }, "Login successful");
   } catch (error) {
@@ -93,6 +100,8 @@ export async function getMe(req: AuthRequest, res: Response): Promise<void> {
       email: req.user.email,
       role: req.user.role,
       fullName: req.user.fullName,
+      isBlocked: req.user.isBlocked,
+      blockReason: req.user.blockReason,
       createdAt: req.user.createdAt,
     });
   } catch (error) {

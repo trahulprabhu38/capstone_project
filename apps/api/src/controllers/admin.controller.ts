@@ -112,6 +112,67 @@ export async function listUsers(
   }
 }
 
+export async function blockUser(
+  req: AuthRequest,
+  res: Response
+): Promise<void> {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+
+    if (!reason || !reason.trim()) {
+      sendError(res, "A reason is required to block an account");
+      return;
+    }
+
+    const user = await UserModel.findById(id).select("-password");
+    if (!user) {
+      sendError(res, "User not found", 404);
+      return;
+    }
+
+    if (user.role === "admin") {
+      sendError(res, "Cannot block an admin account");
+      return;
+    }
+
+    user.isBlocked = true;
+    user.blockReason = reason.trim();
+    user.blockedAt = new Date();
+    await user.save();
+
+    sendSuccess(res, user, "User blocked successfully");
+  } catch (error) {
+    logger.error("Block user error:", error);
+    sendError(res, "Failed to block user", 500);
+  }
+}
+
+export async function unblockUser(
+  req: AuthRequest,
+  res: Response
+): Promise<void> {
+  try {
+    const { id } = req.params;
+
+    const user = await UserModel.findById(id).select("-password");
+    if (!user) {
+      sendError(res, "User not found", 404);
+      return;
+    }
+
+    user.isBlocked = false;
+    user.blockReason = undefined;
+    user.blockedAt = undefined;
+    await user.save();
+
+    sendSuccess(res, user, "User unblocked successfully");
+  } catch (error) {
+    logger.error("Unblock user error:", error);
+    sendError(res, "Failed to unblock user", 500);
+  }
+}
+
 export async function getStats(
   req: AuthRequest,
   res: Response

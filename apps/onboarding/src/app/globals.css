@@ -38,6 +38,101 @@
   }
 }
 
+/* ─── Status Waiting Animation ─── */
+
+@keyframes pulseRing {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 0; }
+  100% { transform: scale(0.9); opacity: 0; }
+}
+
+@keyframes orbitDot {
+  0% { transform: rotate(0deg) translateX(52px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(52px) rotate(-360deg); }
+}
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pulse-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 9999px;
+  border: 2px solid currentColor;
+  animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.pulse-ring-delay {
+  animation-delay: 0.6s;
+}
+
+.orbit-dot {
+  position: absolute;
+  inset: 0;
+  animation: orbitDot 3s linear infinite;
+}
+
+.orbit-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 9999px;
+  background: #05A049;
+  box-shadow: 0 0 8px rgba(5, 160, 73, 0.6);
+}
+
+.orbit-dot-2 {
+  animation-delay: -1.5s;
+  animation-direction: reverse;
+}
+
+.orbit-dot-2::after {
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  opacity: 0.6;
+}
+
+.float-anim {
+  animation: floatUp 3s ease-in-out infinite;
+}
+
+.shimmer-bar {
+  background: linear-gradient(
+    90deg,
+    rgba(5, 160, 73, 0.1) 0%,
+    rgba(5, 160, 73, 0.3) 50%,
+    rgba(5, 160, 73, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.fade-slide-up {
+  animation: fadeSlideUp 0.6s ease-out both;
+}
+
+.fade-slide-up-1 { animation-delay: 0.1s; }
+.fade-slide-up-2 { animation-delay: 0.2s; }
+.fade-slide-up-3 { animation-delay: 0.3s; }
+.fade-slide-up-4 { animation-delay: 0.4s; }
+
 /* ─── Document Scan Animation ─── */
 
 @keyframes scanLine {
