@@ -1,7 +1,10 @@
 import axios from "axios";
 import { getAccessToken, getRefreshToken, setTokens, clearTokens } from "./auth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+const isProd = process.env.NEXT_PUBLIC_APP_ENV === "prod";
+const API_URL = isProd
+  ? "https://api.infra.daily.dev"
+  : process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
 
 export const api = axios.create({
   baseURL: `${API_URL}/api`,

@@ -4,6 +4,7 @@ import path from "path";
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 interface EnvConfig {
+  APP_ENV: string;
   PORT: number;
   MONGODB_URI: string;
   JWT_SECRET: string;
@@ -17,6 +18,7 @@ interface EnvConfig {
   GAME_WEBGL_URL: string;
   ONBOARDING_URL: string;
   ADMIN_URL: string;
+  API_URL: string;
   SMTP_HOST?: string;
   SMTP_PORT?: number;
   SMTP_USER?: string;
@@ -36,7 +38,10 @@ function loadEnv(): EnvConfig {
     }
   }
 
+  const isProd = process.env.APP_ENV === "prod";
+
   return {
+    APP_ENV: process.env.APP_ENV || "dev",
     PORT: parseInt(process.env.PORT || "5001", 10),
     MONGODB_URI: process.env.MONGODB_URI!,
     JWT_SECRET: process.env.JWT_SECRET!,
@@ -48,8 +53,9 @@ function loadEnv(): EnvConfig {
     AWS_REGION: process.env.AWS_REGION || "ap-south-1",
     S3_BUCKET_NAME: process.env.S3_BUCKET_NAME || "kyc-game-documents",
     GAME_WEBGL_URL: process.env.GAME_WEBGL_URL || "https://your-game.com",
-    ONBOARDING_URL: process.env.ONBOARDING_URL || "http://localhost:3000",
-    ADMIN_URL: process.env.ADMIN_URL || "http://localhost:3001",
+    API_URL: process.env.API_URL || (isProd ? "https://api.infra.daily.dev" : "http://localhost:5001"),
+    ONBOARDING_URL: process.env.ONBOARDING_URL || (isProd ? "https://app.infra.daily.dev" : "http://localhost:3000"),
+    ADMIN_URL: process.env.ADMIN_URL || (isProd ? "https://admin.infra.daily.dev" : "http://localhost:3001"),
     SMTP_HOST: process.env.SMTP_HOST,
     SMTP_PORT: process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : undefined,
     SMTP_USER: process.env.SMTP_USER,

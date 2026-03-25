@@ -11,9 +11,7 @@ services:
     environment:
       # Override MONGODB_URI to use Atlas from .env (env_file already sets it)
       - NODE_ENV=production
-      # CORS — must match browser-facing URLs
-      - ONBOARDING_URL=http://localhost:3000
-      - ADMIN_URL=http://localhost:3001
+      - APP_ENV=${APP_ENV:-dev}
       - PORT=5001
     restart: unless-stopped
 
@@ -22,6 +20,7 @@ services:
       context: .
       dockerfile: apps/onboarding/Dockerfile
       args:
+        - NEXT_PUBLIC_APP_ENV=${APP_ENV:-dev}
         - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:5001}
     container_name: kyc-onboarding
     ports:
@@ -35,6 +34,7 @@ services:
       context: .
       dockerfile: apps/admin/Dockerfile
       args:
+        - NEXT_PUBLIC_APP_ENV=${APP_ENV:-dev}
         - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:5001}
     container_name: kyc-admin
     ports:
