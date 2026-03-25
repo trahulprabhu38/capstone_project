@@ -13,6 +13,7 @@ import kycRoutes from "./routes/kyc.routes";
 import uploadRoutes from "./routes/upload.routes";
 import adminRoutes from "./routes/admin.routes";
 import gameRoutes from "./routes/game.routes";
+import profileRoutes from "./routes/profile.routes";
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api/kyc", kycRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/game", gameRoutes);
+app.use("/api/profile", profileRoutes);
 
 app.use(errorHandler);
 

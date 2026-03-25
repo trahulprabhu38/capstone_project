@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
-import { Layers, LogOut, User } from "lucide-react";
+import { Layers, LogOut, User, Settings } from "lucide-react";
 
 export default function Header() {
   const { user, logout, isAuthenticated } = useAuth();
@@ -26,6 +26,13 @@ export default function Header() {
                   className="text-sm text-offwhite/70 hover:text-offwhite transition-colors"
                 >
                   Dashboard
+                </Link>
+                <Link
+                  href="/profile"
+                  className="flex items-center gap-1 text-sm text-offwhite/70 hover:text-offwhite transition-colors"
+                >
+                  <Settings className="h-4 w-4" />
+                  Profile
                 </Link>
                 <div className="flex items-center gap-2 text-sm text-offwhite/50">
                   <User className="h-4 w-4" />
