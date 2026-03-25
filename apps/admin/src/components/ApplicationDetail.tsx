@@ -81,7 +81,7 @@ export default function ApplicationDetail({
     setProcessing(false);
   };
 
-  const canReview = ["PENDING", "UNDER_REVIEW", "REJECTED"].includes(application.status);
+  const canReview = ["PENDING", "UNDER_REVIEW", "REJECTED", "APPROVED"].includes(application.status);
 
   return (
     <div className="space-y-6">
@@ -237,20 +237,24 @@ export default function ApplicationDetail({
       <div className="card flex items-center gap-4">
         {canReview && (
           <>
-            <button
-              onClick={() => setShowApproveModal(true)}
-              className="btn-primary flex items-center gap-2"
-            >
-              <CheckCircle className="h-5 w-5" />
-              Approve
-            </button>
-            <button
-              onClick={() => setShowRejectModal(true)}
-              className="btn-danger flex items-center gap-2"
-            >
-              <XCircle className="h-5 w-5" />
-              Reject
-            </button>
+            {application.status !== "APPROVED" && (
+              <button
+                onClick={() => setShowApproveModal(true)}
+                className="btn-primary flex items-center gap-2"
+              >
+                <CheckCircle className="h-5 w-5" />
+                Approve
+              </button>
+            )}
+            {application.status !== "REJECTED" && (
+              <button
+                onClick={() => setShowRejectModal(true)}
+                className="btn-danger flex items-center gap-2"
+              >
+                <XCircle className="h-5 w-5" />
+                Reject
+              </button>
+            )}
           </>
         )}
         {!isBlocked && user && (
