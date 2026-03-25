@@ -13,13 +13,17 @@
 @layer components {
   .btn-primary {
     @apply bg-primary text-offwhite font-semibold py-3 px-6 rounded-input
-           hover:bg-primary-hover transition-colors duration-200
-           focus:outline-none focus:ring-2 focus:ring-primary/50;
+           hover:bg-primary-hover transition-all duration-300
+           focus:outline-none focus:ring-2 focus:ring-primary/50
+           hover:shadow-[0_0_30px_rgba(5,160,73,0.3)]
+           active:scale-[0.98];
   }
 
   .btn-secondary {
     @apply bg-transparent border border-mint/30 text-mint font-medium py-3 px-6 rounded-input
-           hover:bg-mint/10 transition-colors duration-200;
+           hover:bg-mint/10 transition-all duration-300
+           hover:border-mint/50 hover:shadow-[0_0_20px_rgba(180,227,200,0.08)]
+           active:scale-[0.98];
   }
 
   .input-field {
@@ -30,12 +34,69 @@
   }
 
   .card {
-    @apply bg-dark-card border border-dark-border rounded-card p-6;
+    @apply bg-dark-card/80 backdrop-blur-sm border border-dark-border rounded-card p-6
+           transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:border-primary/30 hover:shadow-[0_0_30px_rgba(5,160,73,0.06)]
+           hover:-translate-y-1;
+  }
+
+  .glass {
+    @apply bg-dark-card/40 backdrop-blur-xl border border-white/[0.06];
   }
 
   .glow-primary {
     box-shadow: 0 0 20px rgba(5, 160, 73, 0.15);
   }
+
+  .glow-primary-intense {
+    box-shadow: 0 0 40px rgba(5, 160, 73, 0.25), 0 0 80px rgba(5, 160, 73, 0.1);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-mint to-primary bg-300% animate-gradient-x;
+  }
+
+  .section-divider {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent;
+  }
+}
+
+/* Premium Noise Texture Overlay */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Grid Background Pattern */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(5, 160, 73, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 160, 73, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Radial Gradient Orb */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.orb-primary {
+  background: radial-gradient(circle, rgba(5, 160, 73, 0.15) 0%, transparent 70%);
+}
+
+.orb-blue {
+  background: radial-gradient(circle, rgba(0, 42, 64, 0.4) 0%, transparent 70%);
 }
 
 /* ─── Status Waiting Animation ─── */
