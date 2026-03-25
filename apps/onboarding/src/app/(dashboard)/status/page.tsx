@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useKyc } from "@/hooks/useKyc";
+import { api } from "@/lib/api";
 import {
   Clock,
   CheckCircle2,
@@ -21,12 +22,36 @@ import {
   ScanLine,
   UserCheck,
   Hourglass,
+  AlertTriangle,
+  MessageSquareWarning,
+  HelpCircle,
+  Mail,
+  RotateCcw,
 } from "lucide-react";
 
 export default function StatusPage() {
   const router = useRouter();
   const { application, loading, getGameUrl, refetch } = useKyc();
   const [gameLoading, setGameLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      const [, meRes] = await Promise.all([
+        refetch(),
+        api.get("/auth/me"),
+      ]);
+      if (meRes.data?.data?.isBlocked) {
+        window.location.reload();
+        return;
+      }
+    } catch {
+      // handled by interceptors
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -168,11 +193,12 @@ export default function StatusPage() {
 
         <div className="text-center">
           <button
-            onClick={refetch}
-            className="text-sm text-offwhite/40 hover:text-offwhite/60 transition-colors inline-flex items-center gap-1"
+            onClick={handleRefresh}
+            disabled={refreshing}
+            className="text-sm text-offwhite/40 hover:text-offwhite/60 transition-colors inline-flex items-center gap-1 disabled:opacity-50"
           >
-            <RefreshCw className="h-3 w-3" />
-            Refresh Status
+            <RefreshCw className={`h-3 w-3 ${refreshing ? "animate-spin" : ""}`} />
+            {refreshing ? "Checking..." : "Refresh Status"}
           </button>
         </div>
       </div>
@@ -396,34 +422,130 @@ export default function StatusPage() {
       {/* Rejected state */}
       {isRejected && (
         <>
+          {/* Hero */}
           <div className="fade-slide-up relative overflow-hidden rounded-card border border-red-500/20 bg-gradient-to-br from-red-500/5 via-dark-card to-dark-card">
-            <div className="relative px-8 py-10 text-center">
+            <div className="absolute top-0 right-0 w-72 h-72 bg-red-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
+            <div className="absolute bottom-0 left-0 w-56 h-56 bg-red-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3" />
+
+            <div className="relative px-8 py-12 text-center">
               <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 bg-red-500/10 border-2 border-red-500/30 rounded-full flex items-center justify-center">
-                  <XCircle className="h-8 w-8 text-red-400" />
+                <div className="relative">
+                  <div className="w-20 h-20 bg-red-500/10 border-2 border-red-500/30 rounded-full flex items-center justify-center">
+                    <XCircle className="h-10 w-10 text-red-400" />
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center">
+                    <AlertTriangle className="h-3.5 w-3.5 text-white" />
+                  </div>
                 </div>
               </div>
-              <h1 className="font-title text-2xl font-extrabold mb-2">
-                Application <span className="text-red-400">Not Approved</span>
+              <h1 className="font-title text-2xl sm:text-3xl font-extrabold mb-3">
+                Verification <span className="text-red-400">Unsuccessful</span>
               </h1>
-              <p className="text-offwhite/50 text-sm max-w-md mx-auto">
-                Your application was reviewed and could not be approved at this time.
+              <p className="text-offwhite/50 text-sm max-w-md mx-auto leading-relaxed">
+                Your application has been reviewed by our team and could not be
+                approved at this time. Please review the feedback below.
               </p>
             </div>
           </div>
 
-          <div className="card border-red-500/20 fade-slide-up fade-slide-up-1">
-            <h3 className="font-heading font-semibold text-red-400 mb-3">
-              Rejection Reason
-            </h3>
-            <div className="bg-red-500/5 border border-red-500/20 rounded-input p-4 mb-6">
-              <p className="text-sm text-offwhite/70">
-                {application?.adminRemarks || "No remarks provided."}
+          {/* Status cards */}
+          <div className="grid grid-cols-3 gap-3 fade-slide-up fade-slide-up-1">
+            <div className="card text-center py-4 px-2">
+              <FileText className="h-5 w-5 text-red-400 mx-auto mb-1.5" />
+              <div className="text-xs font-semibold text-offwhite/40 uppercase tracking-wider mb-0.5">Documents</div>
+              <div className="text-sm text-offwhite/70 font-medium">Reviewed</div>
+            </div>
+            <div className="card text-center py-4 px-2">
+              <UserCheck className="h-5 w-5 text-red-400 mx-auto mb-1.5" />
+              <div className="text-xs font-semibold text-offwhite/40 uppercase tracking-wider mb-0.5">Identity</div>
+              <div className="text-sm text-offwhite/70 font-medium">Checked</div>
+            </div>
+            <div className="card text-center py-4 px-2">
+              <XCircle className="h-5 w-5 text-red-400 mx-auto mb-1.5" />
+              <div className="text-xs font-semibold text-offwhite/40 uppercase tracking-wider mb-0.5">Decision</div>
+              <div className="text-sm text-red-400 font-semibold">Rejected</div>
+            </div>
+          </div>
+
+          {/* Reason card */}
+          <div className="card border-red-500/20 fade-slide-up fade-slide-up-2">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-9 h-9 bg-red-500/10 rounded-lg flex items-center justify-center shrink-0">
+                <MessageSquareWarning className="h-4.5 w-4.5 text-red-400" />
+              </div>
+              <div>
+                <h3 className="font-heading text-sm font-semibold text-red-400 uppercase tracking-wider">
+                  Rejection Reason
+                </h3>
+                <p className="text-[11px] text-offwhite/30">Provided by the review team</p>
+              </div>
+            </div>
+            <div className="bg-red-500/5 border border-red-500/15 rounded-input p-5">
+              <p className="text-sm text-offwhite/70 leading-relaxed italic">
+                &ldquo;{application?.adminRemarks || "No remarks provided."}&rdquo;
               </p>
             </div>
+            {application?.reviewedAt && (
+              <p className="text-[11px] text-offwhite/25 mt-3">
+                Reviewed on {new Date(application.reviewedAt).toLocaleString()}
+              </p>
+            )}
+          </div>
+
+          {/* What you can do */}
+          <div className="card fade-slide-up fade-slide-up-3">
+            <div className="flex items-center gap-2 mb-5">
+              <HelpCircle className="h-4 w-4 text-offwhite/40" />
+              <h3 className="font-heading text-sm font-semibold text-offwhite/60 uppercase tracking-wider">
+                What you can do
+              </h3>
+            </div>
+            <div className="space-y-3">
+              {[
+                {
+                  icon: RotateCcw,
+                  title: "Re-submit your application",
+                  desc: "Fix the issues mentioned above and submit a new application with corrected details.",
+                },
+                {
+                  icon: FileText,
+                  title: "Upload clearer documents",
+                  desc: "Ensure your ID is clearly visible, not expired, and all text is legible.",
+                },
+                {
+                  icon: Mail,
+                  title: "Contact support",
+                  desc: "If you believe this was an error, reach out to our support team for assistance.",
+                },
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-3 p-3.5 rounded-input bg-dark/50 border border-dark-border/50">
+                  <div className="w-8 h-8 bg-red-500/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                    <item.icon className="h-4 w-4 text-red-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-offwhite/80">{item.title}</p>
+                    <p className="text-xs text-offwhite/40 mt-0.5">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="card text-center py-8 border-red-500/10 bg-gradient-to-b from-red-500/5 to-transparent fade-slide-up fade-slide-up-4">
+            <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <RefreshCw className="h-7 w-7 text-primary" />
+            </div>
+            <h2 className="font-heading text-lg font-bold mb-2">
+              Ready to try again?
+            </h2>
+            <p className="text-offwhite/40 text-sm mb-6 max-w-sm mx-auto">
+              Address the feedback above and submit a new application. Our team
+              will review it as soon as possible.
+            </p>
             <button
               onClick={() => router.push("/kyc")}
-              className="btn-primary inline-flex items-center gap-2"
+              className="btn-primary inline-flex items-center gap-2 text-base py-3.5 px-10"
             >
               <RefreshCw className="h-5 w-5" />
               Re-submit Application
@@ -435,11 +557,12 @@ export default function StatusPage() {
       {/* Refresh */}
       <div className="text-center fade-slide-up fade-slide-up-4">
         <button
-          onClick={refetch}
-          className="text-sm text-offwhite/40 hover:text-offwhite/60 transition-colors inline-flex items-center gap-2 py-2 px-4 rounded-input hover:bg-dark-card"
+          onClick={handleRefresh}
+          disabled={refreshing}
+          className="text-sm text-offwhite/40 hover:text-offwhite/60 transition-colors inline-flex items-center gap-2 py-2 px-4 rounded-input hover:bg-dark-card disabled:opacity-50"
         >
-          <RefreshCw className="h-3.5 w-3.5" />
-          Refresh Status
+          <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin" : ""}`} />
+          {refreshing ? "Checking..." : "Refresh Status"}
         </button>
       </div>
     </div>
