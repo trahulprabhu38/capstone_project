@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { setTokens, setUser } from "@/lib/auth";
-import { Shield, Mail, Lock, Loader2 } from "lucide-react";
+import { Layers, Mail, Lock, Loader2 } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -47,11 +47,11 @@ export default function AdminLoginPage() {
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="bg-primary/10 border border-primary/20 rounded-full p-3">
-              <Shield className="h-8 w-8 text-primary" />
+              <Layers className="h-8 w-8 text-primary" />
             </div>
           </div>
           <h1 className="font-heading text-2xl font-bold mb-1">
-            Admin Panel
+            TrustLayer Admin
           </h1>
           <p className="text-offwhite/50 text-sm">
             Sign in to manage KYC applications

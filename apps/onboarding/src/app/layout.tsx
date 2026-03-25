@@ -4,9 +4,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "KYCGate — Web3 Game Onboarding",
+  title: "TrustLayer — Web3 Game Onboarding",
   description:
-    "Complete your identity verification to access the Web3 gaming platform.",
+    "TrustLayer — Complete your identity verification to access the Web3 gaming platform.",
 };
 
 export default function RootLayout({

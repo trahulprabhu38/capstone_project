@@ -50,6 +50,39 @@ export default function ApplicationDetailPage() {
     }
   };
 
+  const getUserId = () => {
+    const u = application?.userId;
+    return typeof u === "object" ? u._id : u;
+  };
+
+  const handleBlock = async (reason: string) => {
+    const userId = getUserId();
+    if (!userId) return;
+    const { data } = await api.patch(`/admin/users/${userId}/block`, { reason });
+    if (data.success) {
+      setApplication((prev: any) => ({
+        ...prev,
+        userId: typeof prev.userId === "object"
+          ? { ...prev.userId, isBlocked: true, blockReason: reason, blockedAt: new Date().toISOString() }
+          : prev.userId,
+      }));
+    }
+  };
+
+  const handleUnblock = async () => {
+    const userId = getUserId();
+    if (!userId) return;
+    const { data } = await api.patch(`/admin/users/${userId}/unblock`);
+    if (data.success) {
+      setApplication((prev: any) => ({
+        ...prev,
+        userId: typeof prev.userId === "object"
+          ? { ...prev.userId, isBlocked: false, blockReason: undefined, blockedAt: undefined }
+          : prev.userId,
+      }));
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -84,6 +117,8 @@ export default function ApplicationDetailPage() {
           application={application}
           onApprove={handleApprove}
           onReject={handleReject}
+          onBlock={handleBlock}
+          onUnblock={handleUnblock}
         />
       )}
     </div>

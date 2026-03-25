@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Shield,
+  Layers,
   FileText,
   Users,
   Settings,
-  BarChart3,
   LogOut,
 } from "lucide-react";
 import { clearTokens } from "@/lib/auth";
@@ -30,10 +29,10 @@ export default function AdminSidebar() {
     <aside className="w-64 bg-dark-card border-r border-dark-border min-h-screen flex flex-col">
       <div className="p-6 border-b border-dark-border">
         <Link href="/applications" className="flex items-center gap-2">
-          <Shield className="h-7 w-7 text-primary" />
+          <Layers className="h-7 w-7 text-primary" />
           <div>
             <span className="font-title text-lg font-bold text-offwhite">
-              KYC<span className="text-primary">Gate</span>
+              Trust<span className="text-primary">Layer</span>
             </span>
             <p className="text-xs text-offwhite/40">Admin Panel</p>
           </div>

@@ -1,11 +1,13 @@
 "use client";
 
-import { UserCircle, Calendar, Globe, Phone } from "lucide-react";
+import { UserCircle, Calendar, Globe, Phone, MapPin, Building2 } from "lucide-react";
 
 interface PersonalInfoData {
   fullName: string;
   dateOfBirth: string;
   country: string;
+  state: string;
+  city: string;
   phone: string;
 }
 
@@ -91,6 +93,42 @@ export default function PersonalInfoStep({
               </option>
             ))}
           </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div>
+          <label className="block text-sm font-medium text-offwhite/70 mb-2">
+            State / Province
+          </label>
+          <div className="relative">
+            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-offwhite/30" />
+            <input
+              type="text"
+              value={data.state}
+              onChange={(e) => onChange({ ...data, state: e.target.value })}
+              className="input-field pl-10"
+              placeholder="Enter your state"
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-offwhite/70 mb-2">
+            City / Town
+          </label>
+          <div className="relative">
+            <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-offwhite/30" />
+            <input
+              type="text"
+              value={data.city}
+              onChange={(e) => onChange({ ...data, city: e.target.value })}
+              className="input-field pl-10"
+              placeholder="Enter your city or town"
+              required
+            />
+          </div>
         </div>
       </div>
 

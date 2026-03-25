@@ -4,7 +4,11 @@ import {
   getApplicationDetail,
   reviewApplication,
   listUsers,
+  blockUser,
+  unblockUser,
   getStats,
+  getConfig,
+  updateConfig,
 } from "../controllers/admin.controller";
 import { authMiddleware } from "../middleware/auth";
 import { adminAuthMiddleware } from "../middleware/adminAuth";
@@ -17,6 +21,10 @@ router.get("/applications", listApplications);
 router.get("/applications/:id", getApplicationDetail);
 router.patch("/applications/:id", reviewApplication);
 router.get("/users", listUsers);
+router.patch("/users/:id/block", blockUser);
+router.patch("/users/:id/unblock", unblockUser);
 router.get("/stats", getStats);
+router.get("/config", getConfig);
+router.put("/config", updateConfig);
 
 export default router;

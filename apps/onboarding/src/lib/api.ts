@@ -26,6 +26,11 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    if (error.response?.status === 403 && typeof window !== "undefined") {
+      window.location.reload();
+      return new Promise(() => {});
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
