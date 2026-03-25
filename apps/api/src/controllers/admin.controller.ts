@@ -38,7 +38,7 @@ export async function getApplicationDetail(
   res: Response
 ): Promise<void> {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const application = await getApplicationById(id);
 
     if (!application) {
@@ -64,7 +64,7 @@ export async function reviewApplication(
       return;
     }
 
-    const { id } = req.params;
+    const id = req.params.id as string;
     const { status, adminRemarks } = parsed.data;
     const adminId = req.user!._id.toString();
 

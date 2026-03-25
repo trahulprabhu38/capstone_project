@@ -64,7 +64,7 @@ export async function getDocumentUrl(
   res: Response
 ): Promise<void> {
   try {
-    const { key } = req.params;
+    const key = req.params.key as string;
     if (!key) {
       sendError(res, "Document key is required");
       return;

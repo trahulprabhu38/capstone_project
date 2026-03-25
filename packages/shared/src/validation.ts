@@ -59,10 +59,7 @@ export const kycSubmitSchema = z.object({
 
 export const adminReviewSchema = z.object({
   status: z.enum([KYC_STATUS.APPROVED, KYC_STATUS.REJECTED]),
-  adminRemarks: z.string().optional().refine(
-    (val, ctx) => true,
-    { message: "Remarks are required when rejecting" }
-  ),
+  adminRemarks: z.string().optional(),
 }).refine(
   (data) => {
     if (data.status === KYC_STATUS.REJECTED && (!data.adminRemarks || data.adminRemarks.trim() === "")) {
