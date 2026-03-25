@@ -145,9 +145,9 @@ const teamMembers = [
 
 export default function LandingPage() {
   return (
-    <div className="relative overflow-x-hidden">
+    <div className="relative">
       {/* ══════════════ HERO SECTION ══════════════ */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden isolate">
         {/* Ambient Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.04] via-transparent to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,_rgba(5,160,73,0.12),_transparent)]" />
@@ -360,7 +360,7 @@ export default function LandingPage() {
       <div className="section-divider" />
 
       {/* ══════════════ WHY KYC MATTERS ══════════════ */}
-      <section className="py-24 relative">
+      <section className="py-24 relative overflow-hidden">
         <GlowOrb
           color="primary"
           size={400}
@@ -416,7 +416,7 @@ export default function LandingPage() {
       <div className="section-divider" />
 
       {/* ══════════════ SECURITY SECTION ══════════════ */}
-      <section className="py-24 relative">
+      <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-dark-card/20" />
         <GlowOrb
           color="blue"
@@ -545,7 +545,7 @@ export default function LandingPage() {
       <div className="section-divider" />
 
       {/* ══════════════ ABOUT / TEAM SECTION ══════════════ */}
-      <section className="py-24 relative">
+      <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-dark-card/20" />
         <GlowOrb
           color="primary"
@@ -645,7 +645,7 @@ export default function LandingPage() {
       <div className="section-divider" />
 
       {/* ══════════════ CTA SECTION ══════════════ */}
-      <section className="py-24 relative">
+      <section className="py-24 relative overflow-hidden">
         <GlowOrb
           color="primary"
           size={500}
