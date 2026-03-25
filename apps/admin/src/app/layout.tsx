@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "KYCGate Admin — Management Panel",
-  description: "Admin panel for managing KYC applications and users.",
+  title: "TrustLayer Admin — Management Panel",
+  description: "Admin panel for managing TrustLayer KYC applications and users.",
 };
 
 export default function RootLayout({

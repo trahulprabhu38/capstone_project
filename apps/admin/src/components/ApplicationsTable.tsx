@@ -8,7 +8,16 @@ interface Application {
   _id: string;
   userId: { _id: string; email: string; fullName?: string } | string;
   status: string;
-  personalInfo?: { fullName: string; country: string };
+  personalInfo?: {
+    fullName: string;
+    country: string;
+    state?: string;
+    city?: string;
+  };
+  documentDetails?: {
+    nameOnDocument?: string;
+    documentNumber?: string;
+  };
   submittedAt?: string;
 }
 
@@ -33,7 +42,10 @@ export default function ApplicationsTable({
               Full Name
             </th>
             <th className="text-left text-xs font-semibold text-offwhite/40 uppercase tracking-wider py-3 px-4">
-              Country
+              Location
+            </th>
+            <th className="text-left text-xs font-semibold text-offwhite/40 uppercase tracking-wider py-3 px-4">
+              Doc ID
             </th>
             <th className="text-left text-xs font-semibold text-offwhite/40 uppercase tracking-wider py-3 px-4">
               Status
@@ -64,7 +76,16 @@ export default function ApplicationsTable({
                   {app.personalInfo?.fullName || user?.fullName || "—"}
                 </td>
                 <td className="py-3 px-4 text-sm text-offwhite/60">
-                  {app.personalInfo?.country || "—"}
+                  {[
+                    app.personalInfo?.city,
+                    app.personalInfo?.state,
+                    app.personalInfo?.country,
+                  ]
+                    .filter(Boolean)
+                    .join(", ") || "—"}
+                </td>
+                <td className="py-3 px-4 text-sm text-offwhite/60 font-mono">
+                  {app.documentDetails?.documentNumber || "—"}
                 </td>
                 <td className="py-3 px-4">
                   <StatusBadge status={app.status} />
@@ -86,7 +107,7 @@ export default function ApplicationsTable({
           {applications.length === 0 && (
             <tr>
               <td
-                colSpan={6}
+                colSpan={7}
                 className="py-12 text-center text-offwhite/30 text-sm"
               >
                 No applications found

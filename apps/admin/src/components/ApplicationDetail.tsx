@@ -12,6 +12,12 @@ import {
   CheckCircle,
   XCircle,
   Loader2,
+  MapPin,
+  Building2,
+  Hash,
+  Clock,
+  ScanLine,
+  CreditCard,
 } from "lucide-react";
 
 interface ApplicationDetailProps {
@@ -33,6 +39,7 @@ export default function ApplicationDetail({
   const user =
     typeof application.userId === "object" ? application.userId : null;
   const info = application.personalInfo;
+  const docDetails = application.documentDetails;
 
   const handleApprove = async () => {
     setProcessing(true);
@@ -75,6 +82,8 @@ export default function ApplicationDetail({
               { icon: User, label: "Full Name", value: info?.fullName },
               { icon: Calendar, label: "Date of Birth", value: info?.dateOfBirth },
               { icon: Globe, label: "Country", value: info?.country },
+              { icon: MapPin, label: "State", value: info?.state },
+              { icon: Building2, label: "City / Town", value: info?.city },
               { icon: Phone, label: "Phone", value: info?.phone },
               { icon: Wallet, label: "Wallet", value: application.walletAddress },
             ].map((item, i) => (
@@ -117,6 +126,39 @@ export default function ApplicationDetail({
           )}
         </div>
       </div>
+
+      {/* Document Details (OCR-scanned) */}
+      {docDetails && (
+        <div className="card space-y-4">
+          <h2 className="font-heading text-sm font-semibold text-offwhite/60 uppercase tracking-wider flex items-center gap-2">
+            <ScanLine className="h-4 w-4 text-primary" />
+            Document Details (OCR Verified)
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { icon: User, label: "Name on Document", value: docDetails.nameOnDocument },
+              { icon: Hash, label: "Document Number", value: docDetails.documentNumber },
+              { icon: Calendar, label: "DOB on Document", value: docDetails.dateOfBirth },
+              ...(docDetails.expiryDate
+                ? [{ icon: Clock, label: "Expiry Date", value: docDetails.expiryDate }]
+                : []),
+              ...(docDetails.issuingAuthority
+                ? [{ icon: CreditCard, label: "Issuing Authority", value: docDetails.issuingAuthority }]
+                : []),
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-3 bg-dark rounded-input p-3">
+                <item.icon className="h-4 w-4 text-primary flex-shrink-0" />
+                <div>
+                  <p className="text-xs text-offwhite/40">{item.label}</p>
+                  <p className="text-sm font-medium break-all">
+                    {item.value || "—"}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Admin Remarks (if already reviewed) */}
       {application.adminRemarks && (
