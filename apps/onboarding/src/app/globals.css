@@ -37,3 +37,113 @@
     box-shadow: 0 0 20px rgba(5, 160, 73, 0.15);
   }
 }
+
+/* ─── Document Scan Animation ─── */
+
+@keyframes scanLine {
+  0% { top: 0%; }
+  50% { top: 92%; }
+  100% { top: 0%; }
+}
+
+@keyframes scanPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes scanGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(5, 160, 73, 0.2); }
+  50% { box-shadow: 0 0 24px rgba(5, 160, 73, 0.5); }
+}
+
+@keyframes cornerBlink {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.scan-line {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(5, 160, 73, 0.3) 15%,
+    rgba(5, 160, 73, 1) 50%,
+    rgba(5, 160, 73, 0.3) 85%,
+    transparent 100%
+  );
+  animation: scanLine 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(5, 160, 73, 0.7));
+}
+
+.scan-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -20px;
+  height: 40px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(5, 160, 73, 0.06) 40%,
+    rgba(5, 160, 73, 0.06) 60%,
+    transparent 100%
+  );
+}
+
+.scan-border {
+  position: absolute;
+  inset: 6px;
+  border: 1.5px solid rgba(5, 160, 73, 0.25);
+  border-radius: 4px;
+  animation: scanGlow 2.4s ease-in-out infinite;
+}
+
+.scan-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  animation: cornerBlink 2s ease-in-out infinite;
+}
+.scan-corner::before,
+.scan-corner::after {
+  content: '';
+  position: absolute;
+  background: #05A049;
+}
+.scan-corner--tl { top: 6px; left: 6px; }
+.scan-corner--tl::before { top: 0; left: 0; width: 14px; height: 2px; }
+.scan-corner--tl::after { top: 0; left: 0; width: 2px; height: 14px; }
+
+.scan-corner--tr { top: 6px; right: 6px; }
+.scan-corner--tr::before { top: 0; right: 0; width: 14px; height: 2px; }
+.scan-corner--tr::after { top: 0; right: 0; width: 2px; height: 14px; }
+
+.scan-corner--bl { bottom: 6px; left: 6px; }
+.scan-corner--bl::before { bottom: 0; left: 0; width: 14px; height: 2px; }
+.scan-corner--bl::after { bottom: 0; left: 0; width: 2px; height: 14px; }
+
+.scan-corner--br { bottom: 6px; right: 6px; }
+.scan-corner--br::before { bottom: 0; right: 0; width: 14px; height: 2px; }
+.scan-corner--br::after { bottom: 0; right: 0; width: 2px; height: 14px; }
+
+.scan-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(5, 160, 73, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(5, 160, 73, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: scanPulse 3s ease-in-out infinite;
+}

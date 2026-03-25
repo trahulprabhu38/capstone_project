@@ -393,11 +393,28 @@ export default function DocDetailsStep({
   const [ocrDone, setOcrDone] = useState(false);
   const [rawText, setRawText] = useState("");
   const [showRawText, setShowRawText] = useState(false);
-  const [frontPreview, setFrontPreview] = useState<string | null>(null);
-  const [backPreview, setBackPreview] = useState<string | null>(null);
   const [additionalFields, setAdditionalFields] = useState<ExtraField[]>([]);
   const [showAdditional, setShowAdditional] = useState(true);
   const hasRun = useRef(false);
+
+  const [frontPreview, setFrontPreview] = useState<string | null>(null);
+  const [backPreview, setBackPreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (idFrontFile && !frontPreview) {
+      const reader = new FileReader();
+      reader.onload = () => setFrontPreview(reader.result as string);
+      reader.readAsDataURL(idFrontFile);
+    }
+  }, [idFrontFile, frontPreview]);
+
+  useEffect(() => {
+    if (idBackFile && !backPreview) {
+      const reader = new FileReader();
+      reader.onload = () => setBackPreview(reader.result as string);
+      reader.readAsDataURL(idBackFile);
+    }
+  }, [idBackFile, backPreview]);
 
   const runOcr = useCallback(
     async (front: File, back: File | null) => {
@@ -455,21 +472,7 @@ export default function DocDetailsStep({
   useEffect(() => {
     if (idFrontFile && !hasRun.current) {
       hasRun.current = true;
-      const frontUrl = URL.createObjectURL(idFrontFile);
-      setFrontPreview(frontUrl);
-
-      let backUrl: string | null = null;
-      if (idBackFile) {
-        backUrl = URL.createObjectURL(idBackFile);
-        setBackPreview(backUrl);
-      }
-
       runOcr(idFrontFile, idBackFile);
-
-      return () => {
-        URL.revokeObjectURL(frontUrl);
-        if (backUrl) URL.revokeObjectURL(backUrl);
-      };
     }
   }, [idFrontFile, idBackFile, runOcr]);
 
@@ -505,7 +508,7 @@ export default function DocDetailsStep({
         </div>
       </div>
 
-      {/* Document Previews */}
+      {/* Document Previews with Scan Animation */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {frontPreview && (
           <div className="card p-0 overflow-hidden">
@@ -515,18 +518,34 @@ export default function DocDetailsStep({
                 ID Front
               </span>
               {scanning && scanStage === "front" && (
-                <Loader2 className="h-3 w-3 animate-spin text-primary ml-auto" />
+                <span className="ml-auto flex items-center gap-1.5 text-[10px] text-primary font-medium">
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  Scanning
+                </span>
               )}
               {(ocrDone || scanStage !== "front") && (
-                <CheckCircle2 className="h-3 w-3 text-primary ml-auto" />
+                <CheckCircle2 className="h-3.5 w-3.5 text-primary ml-auto" />
               )}
             </div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={frontPreview}
-              alt="ID Front"
-              className="w-full h-32 object-contain bg-black"
-            />
+            <div className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={frontPreview}
+                alt="ID Front"
+                className="w-full h-40 object-contain bg-black/90"
+              />
+              {scanning && scanStage === "front" && (
+                <div className="scan-overlay">
+                  <div className="scan-grid" />
+                  <div className="scan-border" />
+                  <div className="scan-line" />
+                  <div className="scan-corner scan-corner--tl" />
+                  <div className="scan-corner scan-corner--tr" />
+                  <div className="scan-corner scan-corner--bl" />
+                  <div className="scan-corner scan-corner--br" />
+                </div>
+              )}
+            </div>
           </div>
         )}
         {backPreview && (
@@ -537,30 +556,54 @@ export default function DocDetailsStep({
                 ID Back
               </span>
               {scanning && scanStage === "back" && (
-                <Loader2 className="h-3 w-3 animate-spin text-primary ml-auto" />
+                <span className="ml-auto flex items-center gap-1.5 text-[10px] text-primary font-medium">
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  Scanning
+                </span>
               )}
               {(ocrDone || (scanStage !== "front" && scanStage !== "back")) && (
-                <CheckCircle2 className="h-3 w-3 text-primary ml-auto" />
+                <CheckCircle2 className="h-3.5 w-3.5 text-primary ml-auto" />
               )}
             </div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={backPreview}
-              alt="ID Back"
-              className="w-full h-32 object-contain bg-black"
-            />
+            <div className="relative">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={backPreview}
+                alt="ID Back"
+                className="w-full h-40 object-contain bg-black/90"
+              />
+              {scanning && scanStage === "back" && (
+                <div className="scan-overlay">
+                  <div className="scan-grid" />
+                  <div className="scan-border" />
+                  <div className="scan-line" />
+                  <div className="scan-corner scan-corner--tl" />
+                  <div className="scan-corner scan-corner--tr" />
+                  <div className="scan-corner scan-corner--bl" />
+                  <div className="scan-corner scan-corner--br" />
+                </div>
+              )}
+              {scanning && scanStage === "front" && (
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <span className="text-xs text-offwhite/40 font-medium">Waiting...</span>
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
 
-      {/* Scanning Progress */}
+      {/* Scanning Progress Bar */}
       {scanning && (
-        <div className="card text-center py-6">
-          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-3" />
-          <p className="text-sm font-medium text-offwhite/80">
-            Scanning {scanStage === "front" ? "front side" : "back side"}... {progress}%
-          </p>
-          <div className="w-64 h-1.5 bg-dark-border rounded-full overflow-hidden mx-auto mt-3">
+        <div className="card py-4 px-5">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm font-medium text-offwhite/80 flex items-center gap-2">
+              <ScanLine className="h-4 w-4 text-primary" />
+              Analyzing {scanStage === "front" ? "front side" : "back side"}...
+            </p>
+            <span className="text-sm font-bold text-primary font-title">{progress}%</span>
+          </div>
+          <div className="w-full h-1.5 bg-dark-border rounded-full overflow-hidden">
             <div
               className="h-full bg-primary rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
