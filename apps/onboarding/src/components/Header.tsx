@@ -6,7 +6,7 @@ import { Layers, LogOut, User, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Header() {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, loading, logout, isAuthenticated } = useAuth();
 
   return (
     <motion.header
@@ -27,7 +27,12 @@ export default function Header() {
           </Link>
 
           <nav className="flex items-center gap-4">
-            {isAuthenticated ? (
+            {loading ? (
+              <div className="flex items-center gap-3 h-9">
+                <div className="w-16 h-4 bg-dark-border/50 rounded animate-pulse" />
+                <div className="w-20 h-9 bg-dark-border/50 rounded-input animate-pulse" />
+              </div>
+            ) : isAuthenticated ? (
               <>
                 <Link
                   href="/status"
