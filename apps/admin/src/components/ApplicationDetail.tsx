@@ -81,7 +81,7 @@ export default function ApplicationDetail({
     setProcessing(false);
   };
 
-  const canReview = ["PENDING", "UNDER_REVIEW"].includes(application.status);
+  const canReview = ["PENDING", "UNDER_REVIEW", "REJECTED"].includes(application.status);
 
   return (
     <div className="space-y-6">
