@@ -68,7 +68,8 @@ export default function StatusPage() {
     const url = await getGameUrl();
     setGameLoading(false);
     if (url) {
-      window.open(url, "_blank");
+      const fullUrl = /^https?:\/\//i.test(url) ? url : `https://${url}`;
+      window.location.href = fullUrl;
     }
   };
 
