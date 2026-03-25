@@ -44,6 +44,7 @@ export async function getProfile(
         ? {
             status: application.status,
             personalInfo: application.personalInfo || null,
+            documentDetails: application.documentDetails || null,
             walletAddress: application.walletAddress || null,
             submittedAt: application.submittedAt || null,
             reviewedAt: application.reviewedAt || null,

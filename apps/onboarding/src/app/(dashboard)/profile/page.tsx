@@ -17,6 +17,10 @@ import {
   Clock,
   Layers,
   ExternalLink,
+  MapPin,
+  Building2,
+  Hash,
+  ScanLine,
 } from "lucide-react";
 
 interface ProfileData {
@@ -33,7 +37,16 @@ interface ProfileData {
       fullName: string;
       dateOfBirth: string;
       country: string;
+      state?: string;
+      city?: string;
       phone: string;
+    } | null;
+    documentDetails: {
+      nameOnDocument: string;
+      documentNumber: string;
+      dateOfBirth: string;
+      expiryDate?: string;
+      issuingAuthority?: string;
     } | null;
     walletAddress: string | null;
     submittedAt: string | null;
@@ -199,6 +212,12 @@ export default function ProfilePage() {
               <InfoRow icon={User} label="Full Name" value={kyc.personalInfo.fullName} />
               <InfoRow icon={Calendar} label="Date of Birth" value={kyc.personalInfo.dateOfBirth} />
               <InfoRow icon={Globe} label="Country" value={kyc.personalInfo.country} />
+              {kyc.personalInfo.state && (
+                <InfoRow icon={MapPin} label="State" value={kyc.personalInfo.state} />
+              )}
+              {kyc.personalInfo.city && (
+                <InfoRow icon={Building2} label="City / Town" value={kyc.personalInfo.city} />
+              )}
               <InfoRow icon={Phone} label="Phone" value={kyc.personalInfo.phone} />
             </div>
           ) : (
@@ -221,6 +240,29 @@ export default function ProfilePage() {
             <code className="text-sm text-offwhite/70 break-all font-mono">
               {kyc.walletAddress}
             </code>
+          </div>
+        </div>
+      )}
+
+      {/* Document Details */}
+      {kyc?.documentDetails && (
+        <div className="card">
+          <div className="flex items-center gap-2 mb-5">
+            <ScanLine className="h-4 w-4 text-primary" />
+            <h3 className="font-heading text-sm font-semibold text-offwhite/70 uppercase tracking-wider">
+              Document Details
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <InfoRow icon={User} label="Name on Document" value={kyc.documentDetails.nameOnDocument} />
+            <InfoRow icon={Hash} label="Document Number" value={kyc.documentDetails.documentNumber} />
+            <InfoRow icon={Calendar} label="DOB on Document" value={kyc.documentDetails.dateOfBirth} />
+            {kyc.documentDetails.expiryDate && (
+              <InfoRow icon={Clock} label="Expiry Date" value={kyc.documentDetails.expiryDate} />
+            )}
+            {kyc.documentDetails.issuingAuthority && (
+              <InfoRow icon={Building2} label="Issuing Authority" value={kyc.documentDetails.issuingAuthority} />
+            )}
           </div>
         </div>
       )}

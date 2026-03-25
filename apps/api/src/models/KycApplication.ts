@@ -12,7 +12,17 @@ export interface IPersonalInfo {
   fullName: string;
   dateOfBirth: string;
   country: string;
+  state: string;
+  city: string;
   phone: string;
+}
+
+export interface IDocumentDetails {
+  nameOnDocument: string;
+  documentNumber: string;
+  dateOfBirth: string;
+  expiryDate?: string;
+  issuingAuthority?: string;
 }
 
 export interface IKycApplication extends Document {
@@ -20,6 +30,7 @@ export interface IKycApplication extends Document {
   userId: mongoose.Types.ObjectId;
   status: KycStatus;
   personalInfo: IPersonalInfo;
+  documentDetails?: IDocumentDetails;
   walletAddress?: string;
   documents: IKycDocument[];
   adminRemarks?: string;
@@ -49,7 +60,20 @@ const personalInfoSchema = new Schema<IPersonalInfo>(
     fullName: { type: String, required: true },
     dateOfBirth: { type: String, required: true },
     country: { type: String, required: true },
+    state: { type: String, required: true },
+    city: { type: String, required: true },
     phone: { type: String, required: true },
+  },
+  { _id: false }
+);
+
+const documentDetailsSchema = new Schema<IDocumentDetails>(
+  {
+    nameOnDocument: { type: String, required: true },
+    documentNumber: { type: String, required: true },
+    dateOfBirth: { type: String, required: true },
+    expiryDate: { type: String },
+    issuingAuthority: { type: String },
   },
   { _id: false }
 );
@@ -69,6 +93,7 @@ const kycApplicationSchema = new Schema<IKycApplication>(
       default: "NOT_STARTED",
     },
     personalInfo: { type: personalInfoSchema },
+    documentDetails: { type: documentDetailsSchema },
     walletAddress: { type: String },
     documents: [kycDocumentSchema],
     adminRemarks: { type: String },

@@ -20,7 +20,17 @@ export interface PersonalInfo {
   fullName: string;
   dateOfBirth: string;
   country: string;
+  state: string;
+  city: string;
   phone: string;
+}
+
+export interface DocumentDetails {
+  nameOnDocument: string;
+  documentNumber: string;
+  dateOfBirth: string;
+  expiryDate?: string;
+  issuingAuthority?: string;
 }
 
 export interface KycApplication {
@@ -28,6 +38,7 @@ export interface KycApplication {
   userId: string;
   status: KycStatus;
   personalInfo: PersonalInfo;
+  documentDetails?: DocumentDetails;
   walletAddress?: string;
   documents: KycDocument[];
   adminRemarks?: string;
@@ -62,6 +73,7 @@ export interface SignupRequest {
 
 export interface KycSubmitRequest {
   personalInfo: PersonalInfo;
+  documentDetails?: DocumentDetails;
   walletAddress?: string;
 }
 

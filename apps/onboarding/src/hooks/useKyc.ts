@@ -32,7 +32,16 @@ export function useKyc() {
       fullName: string;
       dateOfBirth: string;
       country: string;
+      state: string;
+      city: string;
       phone: string;
+    };
+    documentDetails?: {
+      nameOnDocument: string;
+      documentNumber: string;
+      dateOfBirth: string;
+      expiryDate?: string;
+      issuingAuthority?: string;
     };
     walletAddress?: string;
   }) => {

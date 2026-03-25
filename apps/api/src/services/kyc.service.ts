@@ -15,7 +15,16 @@ export async function createOrUpdateApplication(
       fullName: string;
       dateOfBirth: string;
       country: string;
+      state: string;
+      city: string;
       phone: string;
+    };
+    documentDetails?: {
+      nameOnDocument: string;
+      documentNumber: string;
+      dateOfBirth: string;
+      expiryDate?: string;
+      issuingAuthority?: string;
     };
     walletAddress?: string;
   }
@@ -24,6 +33,7 @@ export async function createOrUpdateApplication(
 
   if (existing) {
     existing.personalInfo = data.personalInfo;
+    if (data.documentDetails) existing.documentDetails = data.documentDetails;
     if (data.walletAddress) existing.walletAddress = data.walletAddress;
     existing.status = "PENDING";
     existing.submittedAt = new Date();
@@ -34,6 +44,7 @@ export async function createOrUpdateApplication(
   return KycApplicationModel.create({
     userId,
     personalInfo: data.personalInfo,
+    documentDetails: data.documentDetails,
     walletAddress: data.walletAddress,
     status: "PENDING",
     submittedAt: new Date(),

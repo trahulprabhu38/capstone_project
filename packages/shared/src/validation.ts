@@ -41,11 +41,21 @@ export const personalInfoSchema = z.object({
     { message: "You must be at least 18 years old" }
   ),
   country: z.string().min(2, "Country is required"),
+  state: z.string().min(1, "State is required"),
+  city: z.string().min(1, "City/Town is required"),
   phone: z
     .string()
     .min(7, "Phone number must be at least 7 digits")
     .max(20, "Phone number is too long")
     .regex(/^\+?[\d\s-]+$/, "Invalid phone number format"),
+});
+
+export const documentDetailsSchema = z.object({
+  nameOnDocument: z.string().min(1, "Name on document is required"),
+  documentNumber: z.string().min(1, "Document number is required"),
+  dateOfBirth: z.string().min(1, "Date of birth is required"),
+  expiryDate: z.string().optional(),
+  issuingAuthority: z.string().optional(),
 });
 
 export const walletAddressSchema = z
@@ -54,6 +64,7 @@ export const walletAddressSchema = z
 
 export const kycSubmitSchema = z.object({
   personalInfo: personalInfoSchema,
+  documentDetails: documentDetailsSchema.optional(),
   walletAddress: walletAddressSchema.optional(),
 });
 
