@@ -8,6 +8,7 @@ import {
   getDashboardStats,
 } from "../services/kyc.service";
 import { UserModel } from "../models/User";
+import { getConfigValue, setConfigValue } from "../models/Config";
 import { sendStatusNotification } from "../services/email.service";
 import { sendSuccess, sendError } from "../utils/apiResponse";
 import { logger } from "../utils/logger";
@@ -185,5 +186,38 @@ export async function getStats(
   } catch (error) {
     logger.error("Get stats error:", error);
     sendError(res, "Failed to get stats", 500);
+  }
+}
+
+export async function getConfig(
+  req: AuthRequest,
+  res: Response
+): Promise<void> {
+  try {
+    const gameUrl = await getConfigValue("GAME_WEBGL_URL", "");
+    sendSuccess(res, { gameUrl });
+  } catch (error) {
+    logger.error("Get config error:", error);
+    sendError(res, "Failed to get config", 500);
+  }
+}
+
+export async function updateConfig(
+  req: AuthRequest,
+  res: Response
+): Promise<void> {
+  try {
+    const { gameUrl } = req.body;
+
+    if (gameUrl === undefined) {
+      sendError(res, "gameUrl is required");
+      return;
+    }
+
+    await setConfigValue("GAME_WEBGL_URL", gameUrl);
+    sendSuccess(res, { gameUrl }, "Configuration saved");
+  } catch (error) {
+    logger.error("Update config error:", error);
+    sendError(res, "Failed to update config", 500);
   }
 }

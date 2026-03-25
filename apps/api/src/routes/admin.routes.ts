@@ -7,6 +7,8 @@ import {
   blockUser,
   unblockUser,
   getStats,
+  getConfig,
+  updateConfig,
 } from "../controllers/admin.controller";
 import { authMiddleware } from "../middleware/auth";
 import { adminAuthMiddleware } from "../middleware/adminAuth";
@@ -22,5 +24,7 @@ router.get("/users", listUsers);
 router.patch("/users/:id/block", blockUser);
 router.patch("/users/:id/unblock", unblockUser);
 router.get("/stats", getStats);
+router.get("/config", getConfig);
+router.put("/config", updateConfig);
 
 export default router;
