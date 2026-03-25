@@ -9,7 +9,7 @@ kyc-web3-game-platform/
 ├── apps/
 │   ├── onboarding/       # User-facing Next.js app (port 3000)
 │   ├── admin/            # Admin panel Next.js app (port 3001)
-│   └── api/              # Express.js backend API (port 5000)
+│   └── api/              # Express.js backend API (port 5001)
 └── packages/
     └── shared/           # Shared types, constants, Zod validation
 ```
@@ -60,7 +60,7 @@ npm run dev
 npm run dev               # Run all services
 npm run dev:onboarding    # Onboarding app at localhost:3000
 npm run dev:admin         # Admin panel at localhost:3001
-npm run dev:api           # API server at localhost:5000
+npm run dev:api           # API server at localhost:5001
 npm run build             # Build all services
 npm run seed:admin        # Create default admin user (admin@game.com / Admin@123)
 ```

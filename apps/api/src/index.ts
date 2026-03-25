@@ -19,7 +19,7 @@ const app = express();
 app.use(helmet());
 app.use(
   cors({
-    origin: [env.ONBOARDING_URL, env.ADMIN_URL],
+    origin: "*",
     credentials: true,
   })
 );

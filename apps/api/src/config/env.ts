@@ -37,7 +37,7 @@ function loadEnv(): EnvConfig {
   }
 
   return {
-    PORT: parseInt(process.env.PORT || "5000", 10),
+    PORT: parseInt(process.env.PORT || "5001", 10),
     MONGODB_URI: process.env.MONGODB_URI!,
     JWT_SECRET: process.env.JWT_SECRET!,
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET!,
