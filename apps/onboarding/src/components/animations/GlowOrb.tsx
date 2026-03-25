@@ -26,13 +26,14 @@ export default function GlowOrb({
         height: size,
         background: `radial-gradient(circle, ${colorMap[color]} 0%, transparent 70%)`,
         filter: "blur(60px)",
+        willChange: "transform, opacity",
       }}
       animate={{
-        scale: [1, 1.15, 1],
-        opacity: [0.6, 1, 0.6],
+        scale: [1, 1.08, 1],
+        opacity: [0.5, 0.8, 0.5],
       }}
       transition={{
-        duration: 6,
+        duration: 8,
         repeat: Infinity,
         ease: "easeInOut",
       }}
