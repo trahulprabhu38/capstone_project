@@ -95,7 +95,7 @@ export default function StatusPage() {
         <div className="card py-12">
           <Clock className="h-16 w-16 text-offwhite/20 mx-auto mb-6" />
           <h1 className="font-heading text-2xl font-bold mb-3">
-            Start Your KYC Verification
+            Start Your TrustLayer Verification
           </h1>
           <p className="text-offwhite/50 mb-8 max-w-md mx-auto">
             Complete identity verification to unlock access to the Web3 gaming
@@ -137,7 +137,7 @@ export default function StatusPage() {
               <span className="text-primary">Verified</span>
             </h1>
             <p className="text-offwhite/50 max-w-md mx-auto leading-relaxed">
-              Congratulations! Your KYC verification is complete. You now have
+              Congratulations! Your TrustLayer verification is complete. You now have
               full access to the Web3 gaming platform.
             </p>
           </div>
@@ -247,7 +247,7 @@ export default function StatusPage() {
           Application Status
         </h1>
         <p className="text-offwhite/50 text-sm">
-          Track the progress of your KYC verification
+          Track the progress of your TrustLayer verification
         </p>
       </div>
 

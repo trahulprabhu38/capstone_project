@@ -1,4 +1,4 @@
-import { Shield } from "lucide-react";
+import { Layers } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -8,9 +8,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <Shield className="h-5 w-5 text-primary" />
+              <Layers className="h-5 w-5 text-primary" />
               <span className="font-title text-sm font-semibold text-offwhite">
-                KYC<span className="text-primary">Gate</span>
+                Trust<span className="text-primary">Layer</span>
               </span>
             </div>
             <p className="text-xs text-offwhite/40 leading-relaxed">
@@ -57,10 +57,10 @@ export default function Footer() {
 
         <div className="border-t border-dark-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-offwhite/30">
-            &copy; {new Date().getFullYear()} KYCGate. All rights reserved.
+            &copy; {new Date().getFullYear()} TrustLayer. All rights reserved.
           </p>
           <p className="text-xs text-offwhite/30">
-            VIT, Bhopal University &mdash; B.Tech CSE Gaming Technology
+            VIT Bhopal University &mdash; B.Tech CSE Gaming Technology
           </p>
         </div>
       </div>

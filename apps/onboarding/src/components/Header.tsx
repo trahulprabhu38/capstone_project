@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
-import { Shield, LogOut, User } from "lucide-react";
+import { Layers, LogOut, User } from "lucide-react";
 
 export default function Header() {
   const { user, logout, isAuthenticated } = useAuth();
@@ -12,9 +12,9 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
-            <Shield className="h-8 w-8 text-primary" />
+            <Layers className="h-8 w-8 text-primary" />
             <span className="font-title text-xl font-bold text-offwhite">
-              KYC<span className="text-primary">Gate</span>
+              Trust<span className="text-primary">Layer</span>
             </span>
           </Link>
 

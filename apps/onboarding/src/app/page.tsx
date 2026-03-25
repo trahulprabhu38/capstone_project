@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  Shield,
+  Layers,
   FileCheck,
   Wallet,
   Gamepad2,
@@ -140,7 +140,7 @@ export default function LandingPage() {
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex justify-center mb-6">
               <div className="bg-primary/10 border border-primary/20 rounded-full p-4 glow-primary">
-                <Shield className="h-12 w-12 text-primary" />
+                <Layers className="h-12 w-12 text-primary" />
               </div>
             </div>
             <h1 className="font-title text-4xl sm:text-6xl font-extrabold tracking-tight mb-6">
@@ -323,7 +323,7 @@ export default function LandingPage() {
                 <p className="text-offwhite/50 leading-relaxed mb-6">
                   Online gaming without identity verification is an open door
                   for exploitation. From financial fraud to underage gambling,
-                  the risks are severe and growing. KYCGate addresses every
+                  the risks are severe and growing. TrustLayer addresses every
                   major threat vector.
                 </p>
                 <div className="card bg-red-500/5 border-red-500/20">
@@ -379,13 +379,13 @@ export default function LandingPage() {
               Meet the <span className="text-primary">Team</span>
             </h2>
             <p className="text-offwhite/50 max-w-2xl mx-auto leading-relaxed">
-              KYCGate is a capstone project built by final-year students of{" "}
+              TrustLayer is a capstone project built by final-year students of{" "}
               <span className="text-offwhite font-medium">
                 B.Tech CSE — Gaming Technology
               </span>{" "}
               at{" "}
               <span className="text-offwhite font-medium">
-                VIT, Bhopal University
+                VIT Bhopal University
               </span>
               . Our mission is to demonstrate how robust identity verification
               can make Web3 gaming safer, fairer, and compliant with global
@@ -428,7 +428,7 @@ export default function LandingPage() {
               <Users className="h-8 w-8 text-primary mx-auto mb-3" />
               <h4 className="font-heading font-semibold mb-1">Institution</h4>
               <p className="text-offwhite/50 text-sm">
-                VIT, Bhopal University
+                VIT Bhopal University
               </p>
             </div>
             <div className="card text-center">
@@ -446,7 +446,7 @@ export default function LandingPage() {
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="card bg-gradient-to-br from-primary/10 to-transparent border-primary/20">
-            <Shield className="h-10 w-10 text-primary mx-auto mb-4" />
+            <Layers className="h-10 w-10 text-primary mx-auto mb-4" />
             <h2 className="font-heading text-2xl sm:text-3xl font-bold mb-4">
               Ready to Get Verified?
             </h2>

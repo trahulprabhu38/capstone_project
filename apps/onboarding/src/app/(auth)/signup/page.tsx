@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
-import { Shield, Mail, Lock, Loader2, Check, X } from "lucide-react";
+import { Layers, Mail, Lock, Loader2, Check, X } from "lucide-react";
 
 function getPasswordStrength(pw: string): { score: number; label: string; color: string } {
   let score = 0;
@@ -61,11 +61,11 @@ export default function SignupPage() {
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="bg-primary/10 border border-primary/20 rounded-full p-3">
-              <Shield className="h-8 w-8 text-primary" />
+              <Layers className="h-8 w-8 text-primary" />
             </div>
           </div>
           <h1 className="font-heading text-2xl font-bold mb-2">Create Account</h1>
-          <p className="text-offwhite/50">Start your KYC verification journey</p>
+          <p className="text-offwhite/50">Start your TrustLayer verification journey</p>
         </div>
 
         <form onSubmit={handleSubmit} className="card space-y-5">
